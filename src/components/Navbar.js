@@ -41,18 +41,18 @@ export default function Navbar({ onOpenTerminal, currentTheme, setTheme, soundEn
     { name: "Projects", href: "#projects" },
     { name: "Experience", href: "#experience" },
     { name: "Contact", href: "#contact" },
+    { name: "demo", href: "#contact" },
   ];
 
   return (
     <header
-      className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${
-        scrolled
-          ? "py-3 bg-[var(--bg-secondary)]/90 backdrop-blur-md border-b border-[var(--border-card)] shadow-2xl"
-          : "py-5 bg-transparent"
-      }`}
+      className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${scrolled
+        ? "py-3 bg-[var(--bg-secondary)]/90 backdrop-blur-md border-b border-[var(--border-card)] shadow-2xl"
+        : "py-5 bg-transparent"
+        }`}
     >
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex items-center justify-between">
-        
+
         {/* Brand Logo */}
         <a
           href="#"
@@ -90,7 +90,7 @@ export default function Navbar({ onOpenTerminal, currentTheme, setTheme, soundEn
 
         {/* HUD Action Controls */}
         <div className="hidden lg:flex items-center gap-3">
-          
+
           {/* Command Palette Trigger */}
           <button
             onClick={() => {
@@ -136,11 +136,10 @@ export default function Navbar({ onOpenTerminal, currentTheme, setTheme, soundEn
                   <button
                     key={t.id}
                     onClick={() => handleThemeChange(t.id)}
-                    className={`w-full text-left px-3 py-2 rounded-lg text-xs font-mono font-medium flex items-center justify-between transition-colors ${
-                      currentTheme === t.id
-                        ? "bg-[var(--accent-primary)]/20 text-[var(--accent-primary)] font-bold"
-                        : "text-[var(--text-muted)] hover:bg-white/5 hover:text-white"
-                    }`}
+                    className={`w-full text-left px-3 py-2 rounded-lg text-xs font-mono font-medium flex items-center justify-between transition-colors ${currentTheme === t.id
+                      ? "bg-[var(--accent-primary)]/20 text-[var(--accent-primary)] font-bold"
+                      : "text-[var(--text-muted)] hover:bg-white/5 hover:text-white"
+                      }`}
                   >
                     <span>{t.name}</span>
                     <span>{t.icon}</span>
@@ -166,7 +165,7 @@ export default function Navbar({ onOpenTerminal, currentTheme, setTheme, soundEn
 
         {/* Mobile Controls Toggle */}
         <div className="flex lg:hidden items-center gap-2">
-          
+
           <button
             onClick={() => {
               soundFx.playClick();
