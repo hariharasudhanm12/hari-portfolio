@@ -41,7 +41,6 @@ export default function Navbar({ onOpenTerminal, currentTheme, setTheme, soundEn
     { name: "Projects", href: "#projects" },
     { name: "Experience", href: "#experience" },
     { name: "Contact", href: "#contact" },
-    { name: "Hello world!", href: "#contact" },
   ];
 
   return (
