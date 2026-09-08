@@ -6,110 +6,164 @@
   }
 }
 
+/* Default Theme: Matrix Cyber (Emerald + Cyan) */
 :root {
-  --bg-gradient: linear-gradient(135deg, #f8fafc 0%, #edf2f7 50%, #e2e8f0 100%);
-  --card-bg: rgba(255, 255, 255, 0.7);
-  --card-border: rgba(226, 232, 240, 0.8);
-  --text-main: #0f172a;
-  --text-muted: #475569;
-  --accent-cyan: #06b6d4;
-  --accent-purple: #8b5cf6;
-  --accent-indigo: #6366f1;
+  --bg-primary: #07090e;
+  --bg-secondary: #0c1017;
+  --bg-card: rgba(12, 17, 26, 0.75);
+  --border-card: rgba(16, 185, 129, 0.18);
+  --border-card-hover: rgba(16, 185, 129, 0.45);
+  --text-main: #f1f5f9;
+  --text-muted: #94a3b8;
+  --accent-primary: #10b981;
+  --accent-secondary: #06b6d4;
+  --accent-tertiary: #fbbf24;
+  --accent-glow: rgba(16, 185, 129, 0.25);
+  --laser-grid: rgba(16, 185, 129, 0.05);
 }
 
-.dark {
-  --bg-gradient: linear-gradient(135deg, #0b0f19 0%, #030712 50%, #0d1322 100%);
-  --card-bg: rgba(15, 23, 42, 0.65);
-  --card-border: rgba(255, 255, 255, 0.08);
+/* Theme Presets */
+.theme-synthwave {
+  --bg-primary: #0a0612;
+  --bg-secondary: #120b20;
+  --bg-card: rgba(22, 13, 38, 0.75);
+  --border-card: rgba(236, 72, 153, 0.2);
+  --border-card-hover: rgba(236, 72, 153, 0.5);
+  --text-main: #fdf2f8;
+  --text-muted: #cbd5e1;
+  --accent-primary: #ec4899;
+  --accent-secondary: #f59e0b;
+  --accent-tertiary: #a855f7;
+  --accent-glow: rgba(236, 72, 153, 0.25);
+  --laser-grid: rgba(236, 72, 153, 0.05);
+}
+
+.theme-cyberblue {
+  --bg-primary: #060b14;
+  --bg-secondary: #0c1424;
+  --bg-card: rgba(12, 21, 38, 0.75);
+  --border-card: rgba(56, 189, 248, 0.2);
+  --border-card-hover: rgba(56, 189, 248, 0.5);
   --text-main: #f8fafc;
   --text-muted: #94a3b8;
-  --accent-cyan: #38bdf8;
-  --accent-purple: #a855f7;
-  --accent-indigo: #818cf8;
+  --accent-primary: #38bdf8;
+  --accent-secondary: #818cf8;
+  --accent-tertiary: #c084fc;
+  --accent-glow: rgba(56, 189, 248, 0.25);
+  --laser-grid: rgba(56, 189, 248, 0.05);
+}
+
+.theme-monochrome {
+  --bg-primary: #08090a;
+  --bg-secondary: #121316;
+  --bg-card: rgba(20, 22, 26, 0.8);
+  --border-card: rgba(132, 204, 22, 0.25);
+  --border-card-hover: rgba(132, 204, 22, 0.6);
+  --text-main: #ffffff;
+  --text-muted: #a1a1aa;
+  --accent-primary: #84cc16;
+  --accent-secondary: #e4e4e7;
+  --accent-tertiary: #facc15;
+  --accent-glow: rgba(132, 204, 22, 0.25);
+  --laser-grid: rgba(132, 204, 22, 0.06);
 }
 
 body {
-  background: var(--bg-gradient);
+  background-color: var(--bg-primary);
   color: var(--text-main);
-  font-family: var(--font-geist-sans), system-ui, -apple-system, sans-serif;
+  font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
   min-height: 100vh;
-  transition: background 0.3s ease, color 0.3s ease;
+  transition: background-color 0.4s ease, color 0.4s ease;
+  overflow-x: hidden;
 }
 
-/* Glassmorphism utilities */
-.glass-panel {
-  background: var(--card-bg);
+/* Cyber Laser Grid Background */
+.cyber-grid-bg {
+  background-image: 
+    linear-gradient(to right, var(--laser-grid) 1px, transparent 1px),
+    linear-gradient(to bottom, var(--laser-grid) 1px, transparent 1px);
+  background-size: 40px 40px;
+}
+
+/* CRT Scanlines Overlay */
+.scanlines-overlay {
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  z-index: 99;
+  background: linear-gradient(
+    rgba(18, 16, 16, 0) 50%, 
+    rgba(0, 0, 0, 0.25) 50%
+  );
+  background-size: 100% 4px;
+  opacity: 0.35;
+}
+
+/* Glass & Cyber Panels */
+.cyber-glass-panel {
+  background: var(--bg-card);
   backdrop-filter: blur(16px);
   -webkit-backdrop-filter: blur(16px);
-  border: 1px solid var(--card-border);
+  border: 1px solid var(--border-card);
+  box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.37);
 }
 
-.glass-card {
-  background: var(--card-bg);
-  backdrop-filter: blur(12px);
-  -webkit-backdrop-filter: blur(12px);
-  border: 1px solid var(--card-border);
+.cyber-card {
+  background: var(--bg-card);
+  backdrop-filter: blur(14px);
+  -webkit-backdrop-filter: blur(14px);
+  border: 1px solid var(--border-card);
   transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  position: relative;
 }
 
-.glass-card:hover {
+.cyber-card:hover {
+  border-color: var(--border-card-hover);
   transform: translateY(-4px);
-  border-color: rgba(99, 102, 241, 0.3);
-  box-shadow: 0 12px 30px -10px rgba(99, 102, 241, 0.15);
+  box-shadow: 0 14px 35px -10px var(--accent-glow);
 }
 
-/* Gradient Text */
-.gradient-text {
-  background: linear-gradient(135deg, #38bdf8 0%, #818cf8 50%, #c084fc 100%);
+/* Accent Text Gradient */
+.accent-gradient-text {
+  background: linear-gradient(135deg, var(--accent-primary) 0%, var(--accent-secondary) 100%);
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
 }
 
-.gradient-text-alt {
-  background: linear-gradient(135deg, #f43f5e 0%, #fb923c 50%, #facc15 100%);
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
+.accent-glow-box {
+  box-shadow: 0 0 25px var(--accent-glow);
 }
 
-/* Glowing Aura Background */
-.glow-spot {
-  position: absolute;
-  border-radius: 50%;
-  filter: blur(80px);
-  opacity: 0.25;
-  pointer-events: none;
-}
-
-/* Keyframe animations */
-@keyframes float {
-  0%, 100% { transform: translateY(0px); }
-  50% { transform: translateY(-10px); }
-}
-
+/* Animations */
 @keyframes pulseGlow {
-  0%, 100% { opacity: 0.3; transform: scale(1); }
-  50% { opacity: 0.6; transform: scale(1.05); }
+  0%, 100% { opacity: 0.25; transform: scale(1); }
+  50% { opacity: 0.55; transform: scale(1.08); }
 }
 
-.animate-float {
-  animation: float 6s ease-in-out infinite;
+@keyframes scanLine {
+  0% { transform: translateY(-100%); }
+  100% { transform: translateY(1000%); }
 }
 
 .animate-pulse-glow {
-  animation: pulseGlow 4s ease-in-out infinite;
+  animation: pulseGlow 5s ease-in-out infinite;
 }
 
-/* Custom scrollbar */
+.animate-scan {
+  animation: scanLine 8s linear infinite;
+}
+
+/* Custom Scrollbar */
 ::-webkit-scrollbar {
-  width: 8px;
+  width: 7px;
 }
 ::-webkit-scrollbar-track {
-  background: rgba(15, 23, 42, 0.5);
+  background: var(--bg-primary);
 }
 ::-webkit-scrollbar-thumb {
-  background: rgba(99, 102, 241, 0.4);
+  background: var(--border-card-hover);
   border-radius: 4px;
 }
 ::-webkit-scrollbar-thumb:hover {
-  background: rgba(99, 102, 241, 0.7);
+  background: var(--accent-primary);
 }

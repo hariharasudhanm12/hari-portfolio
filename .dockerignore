@@ -1,0 +1,31 @@
+# Dependencies & Build Artifacts
+node_modules
+.next
+out
+build
+
+# Version Control
+.git
+.gitignore
+.github
+
+# Environment Variables
+.env
+.env*.local
+.env.production
+
+# IDE & Editor Files
+.vscode
+.idea
+*.swp
+*.swo
+.DS_Store
+
+# Logs
+*.log
+npm-debug.log*
+yarn-debug.log*
+
+# Documentation & Temporary Files
+README.md
+DEVOPS_STUDY_GUIDE.md

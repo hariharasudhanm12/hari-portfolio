@@ -1,3 +1,6 @@
+"use client";
+
+import { useState, useEffect } from "react";
 import Navbar from "@/components/Navbar";
 import HeroSection from "@/components/HeroSection";
 import AboutSection from "@/components/AboutSection";
@@ -6,20 +9,37 @@ import ProjectsSection from "@/components/ProjectsSection";
 import ExperienceSection from "@/components/ExperienceSection";
 import ContactSection from "@/components/ContactSection";
 import Footer from "@/components/Footer";
+import CommandPalette from "@/components/CommandPalette";
 
 export default function Home() {
+  const [currentTheme, setCurrentTheme] = useState("theme-matrix");
+  const [soundEnabled, setSoundEnabled] = useState(true);
+  const [terminalOpen, setTerminalOpen] = useState(false);
+  const [scanlines, setScanlines] = useState(true);
+
+  // Apply theme class to document root
+  useEffect(() => {
+    document.documentElement.className = currentTheme;
+  }, [currentTheme]);
+
   return (
-    <div className="relative min-h-screen bg-slate-950 text-slate-100 selection:bg-cyan-500 selection:text-slate-950 font-sans overflow-x-hidden">
-      {/* Background Ambient Glows */}
-      <div className="fixed top-0 left-1/4 w-[500px] h-[500px] bg-cyan-500/10 rounded-full blur-[120px] pointer-events-none" />
-      <div className="fixed bottom-0 right-1/4 w-[500px] h-[500px] bg-purple-500/10 rounded-full blur-[120px] pointer-events-none" />
+    <div className={`relative min-h-screen ${currentTheme} selection:bg-[var(--accent-primary)] selection:text-slate-950 font-sans transition-colors duration-500 overflow-x-hidden`}>
+      
+      {/* Optional CRT Scanlines Effect */}
+      {scanlines && <div className="scanlines-overlay" />}
 
       {/* Navigation Header */}
-      <Navbar />
+      <Navbar
+        onOpenTerminal={() => setTerminalOpen(true)}
+        currentTheme={currentTheme}
+        setTheme={setCurrentTheme}
+        soundEnabled={soundEnabled}
+        setSoundEnabled={setSoundEnabled}
+      />
 
-      {/* Main Sections */}
+      {/* Main Content Sections */}
       <main>
-        <HeroSection />
+        <HeroSection onOpenTerminal={() => setTerminalOpen(true)} />
         <AboutSection />
         <SkillsSection />
         <ProjectsSection />
@@ -27,8 +47,19 @@ export default function Home() {
         <ContactSection />
       </main>
 
-      {/* Footer */}
+      {/* Footer Bar */}
       <Footer />
+
+      {/* Interactive Cmd+K Command Palette Console */}
+      <CommandPalette
+        isOpen={terminalOpen}
+        onClose={setTerminalOpen}
+        currentTheme={currentTheme}
+        setTheme={setCurrentTheme}
+        soundEnabled={soundEnabled}
+        setSoundEnabled={setSoundEnabled}
+      />
+
     </div>
   );
 }

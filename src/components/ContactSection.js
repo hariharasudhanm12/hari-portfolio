@@ -1,7 +1,8 @@
 "use client";
 
 import { useState } from "react";
-import { Mail, MapPin, Send, CheckCircle, Linkedin, Download, Github } from "./Icons";
+import { Mail, MapPin, Send, CheckCircle, Linkedin, Download, Github, Terminal, Sparkles } from "./Icons";
+import { soundFx } from "@/utils/soundEffects";
 
 export default function ContactSection() {
   const [formData, setFormData] = useState({
@@ -13,6 +14,33 @@ export default function ContactSection() {
 
   const [status, setStatus] = useState("idle");
 
+  const presets = [
+    {
+      label: "🚀 Full Stack Role",
+      subject: "Opportunity: Full Stack / Serverless Developer Position",
+      message: "Hi Hariharasudhan, I reviewed your portfolio and would like to discuss a Full Stack / AWS Serverless role with our team.",
+    },
+    {
+      label: "⚡ ERP Modernization",
+      subject: "Project Inquiry: Enterprise ERP Software",
+      message: "Hi Hari, we have a web/mobile project requirement similar to your ERP modernization work. Let's connect!",
+    },
+    {
+      label: "☕ Tech Chat",
+      subject: "Quick Tech Chat & Networking",
+      message: "Hey Hariharasudhan, loved your portfolio HUD! Would love to connect over coffee and talk tech.",
+    },
+  ];
+
+  const handlePresetSelect = (preset) => {
+    soundFx.playClick();
+    setFormData({
+      ...formData,
+      subject: preset.subject,
+      message: preset.message,
+    });
+  };
+
   const handleChange = (e) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
   };
@@ -21,6 +49,7 @@ export default function ContactSection() {
     e.preventDefault();
     if (!formData.name || !formData.email || !formData.message) return;
 
+    soundFx.playClick();
     setStatus("submitting");
 
     try {
@@ -42,6 +71,7 @@ export default function ContactSection() {
 
       const result = await response.json();
       if (result.success || response.ok) {
+        soundFx.playSuccess();
         setStatus("success");
         setFormData({ name: "", email: "", subject: "", message: "" });
         setTimeout(() => setStatus("idle"), 8000);
@@ -55,6 +85,7 @@ export default function ContactSection() {
   };
 
   const triggerMailto = () => {
+    soundFx.playClick();
     const subject = encodeURIComponent(formData.subject || `Portfolio Inquiry from ${formData.name}`);
     const body = encodeURIComponent(`Name: ${formData.name}\nEmail: ${formData.email}\n\nMessage:\n${formData.message}`);
     window.location.href = `mailto:harihs1210@gmail.com?subject=${subject}&body=${body}`;
@@ -69,115 +100,138 @@ export default function ContactSection() {
         
         {/* Section Header */}
         <div className="text-center max-w-3xl mx-auto mb-16 space-y-3">
-          <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full glass-panel text-xs font-semibold text-cyan-400">
+          <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full cyber-glass-panel text-xs font-mono font-semibold text-[var(--accent-primary)] border border-[var(--border-card)]">
             <Mail className="w-4 h-4" />
-            <span>Get In Touch</span>
+            <span>05 // DISPATCH DIRECT MESSAGE</span>
           </div>
-          <h2 className="text-3xl sm:text-4xl font-extrabold text-white">
-            Send Me a <span className="gradient-text">Real Message</span>
+          <h2 className="text-3xl sm:text-4xl font-extrabold font-mono text-[var(--text-main)]">
+            Send Me a <span className="accent-gradient-text">Direct Message</span>
           </h2>
-          <p className="text-slate-300 text-base sm:text-lg">
-            Messages submitted here deliver directly to <strong className="text-cyan-400 font-semibold">harihs1210@gmail.com</strong>.
+          <p className="text-[var(--text-muted)] text-base sm:text-lg font-sans">
+            Delivered directly to <strong className="text-[var(--accent-primary)] font-mono">harihs1210@gmail.com</strong>.
           </p>
         </div>
 
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-12">
           
-          {/* Left Column: Contact Details */}
+          {/* Left Column: Direct Contact Info */}
           <div className="lg:col-span-5 space-y-6">
             
             {/* Email Card */}
-            <div className="glass-card rounded-2xl p-6 flex items-start gap-4 border border-slate-800/60">
-              <div className="p-3 rounded-xl bg-cyan-500/10 text-cyan-400 border border-cyan-500/30">
+            <div className="cyber-card rounded-2xl p-6 flex items-start gap-4 border border-[var(--border-card)]">
+              <div className="p-3 rounded-xl bg-[var(--accent-primary)]/10 text-[var(--accent-primary)] border border-[var(--border-card)]">
                 <Mail className="w-6 h-6" />
               </div>
-              <div>
-                <h4 className="text-xs font-mono uppercase tracking-wider text-slate-400">Direct Email</h4>
-                <a href="mailto:harihs1210@gmail.com" className="text-base font-bold text-white hover:text-cyan-400 transition-colors">
+              <div className="font-mono">
+                <h4 className="text-[11px] uppercase tracking-wider text-[var(--text-muted)] font-semibold">Direct Email</h4>
+                <a href="mailto:harihs1210@gmail.com" onClick={() => soundFx.playClick()} className="text-base font-bold text-white hover:text-[var(--accent-primary)] transition-colors">
                   harihs1210@gmail.com
                 </a>
               </div>
             </div>
 
             {/* Phone Card */}
-            <div className="glass-card rounded-2xl p-6 flex items-start gap-4 border border-slate-800/60">
-              <div className="p-3 rounded-xl bg-emerald-500/10 text-emerald-400 border border-emerald-500/30">
+            <div className="cyber-card rounded-2xl p-6 flex items-start gap-4 border border-[var(--border-card)]">
+              <div className="p-3 rounded-xl bg-[var(--accent-secondary)]/10 text-[var(--accent-secondary)] border border-[var(--border-card)]">
                 <span className="text-xl">📞</span>
               </div>
-              <div>
-                <h4 className="text-xs font-mono uppercase tracking-wider text-slate-400">Phone Number</h4>
-                <a href="tel:+919025097137" className="text-base font-bold text-white hover:text-emerald-400 transition-colors">
+              <div className="font-mono">
+                <h4 className="text-[11px] uppercase tracking-wider text-[var(--text-muted)] font-semibold">Phone Contact</h4>
+                <a href="tel:+919025097137" onClick={() => soundFx.playClick()} className="text-base font-bold text-white hover:text-[var(--accent-secondary)] transition-colors">
                   +91 9025097137
                 </a>
               </div>
             </div>
 
             {/* Location Card */}
-            <div className="glass-card rounded-2xl p-6 flex items-start gap-4 border border-slate-800/60">
-              <div className="p-3 rounded-xl bg-indigo-500/10 text-indigo-400 border border-indigo-500/30">
+            <div className="cyber-card rounded-2xl p-6 flex items-start gap-4 border border-[var(--border-card)]">
+              <div className="p-3 rounded-xl bg-[var(--accent-tertiary)]/10 text-[var(--accent-tertiary)] border border-[var(--border-card)]">
                 <MapPin className="w-6 h-6" />
               </div>
-              <div>
-                <h4 className="text-xs font-mono uppercase tracking-wider text-slate-400">Location</h4>
+              <div className="font-mono">
+                <h4 className="text-[11px] uppercase tracking-wider text-[var(--text-muted)] font-semibold">Location</h4>
                 <p className="text-base font-bold text-white">
                   Virudhunagar, Tamil Nadu, India
                 </p>
               </div>
             </div>
 
-            {/* Social & Resume Links */}
-            <div className="glass-card rounded-2xl p-6 space-y-4 border border-slate-800/60">
-              <h4 className="text-base font-bold text-white">
-                GitHub & Profiles
+            {/* Profiles & PDF */}
+            <div className="cyber-card rounded-2xl p-6 space-y-4 border border-[var(--border-card)]">
+              <h4 className="text-sm font-bold font-mono text-white">
+                GitHub & Professional Profiles
               </h4>
-              <div className="flex flex-wrap items-center gap-3">
+              <div className="flex flex-wrap items-center gap-3 font-mono text-xs">
                 <a
                   href="https://github.com/hariharasudhanm12"
                   target="_blank"
                   rel="noreferrer"
-                  className="flex items-center gap-2 px-4 py-2.5 rounded-xl glass-card text-sm font-semibold text-slate-200 hover:text-cyan-400 hover:border-cyan-500/40 transition-all"
+                  onClick={() => soundFx.playClick()}
+                  className="flex items-center gap-2 px-4 py-2.5 rounded-xl cyber-card text-white hover:text-[var(--accent-primary)] hover:border-[var(--accent-primary)] transition-all"
                 >
-                  <Github className="w-5 h-5 text-cyan-400" />
+                  <Github className="w-4 h-4 text-[var(--accent-primary)]" />
                   <span>GitHub</span>
                 </a>
                 <a
                   href="https://linkedin.com/in/mhari12"
                   target="_blank"
                   rel="noreferrer"
-                  className="flex items-center gap-2 px-4 py-2.5 rounded-xl glass-card text-sm font-semibold text-slate-200 hover:text-cyan-400 hover:border-cyan-500/40 transition-all"
+                  onClick={() => soundFx.playClick()}
+                  className="flex items-center gap-2 px-4 py-2.5 rounded-xl cyber-card text-white hover:text-[var(--accent-primary)] hover:border-[var(--accent-primary)] transition-all"
                 >
-                  <Linkedin className="w-5 h-5 text-cyan-400" />
+                  <Linkedin className="w-4 h-4 text-[var(--accent-primary)]" />
                   <span>LinkedIn</span>
                 </a>
                 <a
                   href="/resume.pdf"
                   target="_blank"
                   download="Hariharasudhan_M_Resume.pdf"
-                  className="flex items-center gap-2 px-4 py-2.5 rounded-xl bg-gradient-to-r from-cyan-500 to-indigo-600 text-white text-sm font-semibold shadow-md"
+                  onClick={() => soundFx.playClick()}
+                  className="flex items-center gap-2 px-4 py-2.5 rounded-xl bg-gradient-to-r from-[var(--accent-primary)] to-[var(--accent-secondary)] text-slate-950 font-bold shadow-md"
                 >
-                  <Download className="w-5 h-5" />
-                  <span>Resume PDF</span>
+                  <Download className="w-4 h-4" />
+                  <span>Resume</span>
                 </a>
               </div>
             </div>
 
           </div>
 
-          {/* Right Column: Real Email Contact Form */}
+          {/* Right Column: Contact Terminal Form */}
           <div className="lg:col-span-7">
-            <div className="glass-card rounded-2xl p-8 border border-slate-800/60 shadow-xl">
+            <div className="cyber-glass-panel rounded-2xl p-8 border border-[var(--border-card)] shadow-2xl font-mono">
+              
+              {/* Preset Chips */}
+              <div className="mb-6 space-y-2">
+                <span className="text-[11px] uppercase tracking-wider text-[var(--text-muted)] font-semibold block">
+                  Quick Message Templates:
+                </span>
+                <div className="flex flex-wrap gap-2">
+                  {presets.map((preset, idx) => (
+                    <button
+                      key={idx}
+                      type="button"
+                      onClick={() => handlePresetSelect(preset)}
+                      className="px-3 py-1.5 rounded-lg cyber-card text-xs text-[var(--text-main)] hover:text-[var(--accent-primary)] hover:border-[var(--accent-primary)] transition-colors"
+                    >
+                      {preset.label}
+                    </button>
+                  ))}
+                </div>
+              </div>
+
               <form onSubmit={handleSubmit} className="space-y-6">
                 
                 {status === "success" && (
-                  <div className="p-4 rounded-xl bg-emerald-500/20 border border-emerald-500/40 text-emerald-300 text-sm flex items-center gap-3 animate-fadeIn">
-                    <CheckCircle className="w-5 h-5 shrink-0" />
-                    <span>Your message has been sent to <strong>harihs1210@gmail.com</strong>! I will reply soon.</span>
+                  <div className="p-4 rounded-xl bg-emerald-500/20 border border-emerald-500/40 text-emerald-300 text-xs flex items-center gap-3 animate-fadeIn">
+                    <CheckCircle className="w-5 h-5 shrink-0 text-emerald-400" />
+                    <span>Message dispatched to <strong>harihs1210@gmail.com</strong>! Will respond shortly.</span>
                   </div>
                 )}
 
                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
                   <div>
-                    <label className="block text-xs font-semibold uppercase tracking-wider text-slate-400 mb-2">
+                    <label className="block text-[11px] font-semibold uppercase tracking-wider text-[var(--text-muted)] mb-2">
                       Your Name *
                     </label>
                     <input
@@ -186,14 +240,14 @@ export default function ContactSection() {
                       required
                       value={formData.name}
                       onChange={handleChange}
-                      placeholder="e.g. Alex Smith"
-                      className="w-full px-4 py-3 rounded-xl bg-slate-900/80 border border-slate-700/60 text-slate-100 placeholder-slate-500 focus:outline-none focus:border-cyan-500 transition-colors text-sm"
+                      placeholder="Alex Smith"
+                      className="w-full px-4 py-3 rounded-xl bg-black/60 border border-[var(--border-card)] text-white placeholder:text-slate-600 focus:outline-none focus:border-[var(--accent-primary)] transition-colors text-sm"
                     />
                   </div>
 
                   <div>
-                    <label className="block text-xs font-semibold uppercase tracking-wider text-slate-400 mb-2">
-                      Your Email Address *
+                    <label className="block text-[11px] font-semibold uppercase tracking-wider text-[var(--text-muted)] mb-2">
+                      Email Address *
                     </label>
                     <input
                       type="email"
@@ -202,13 +256,13 @@ export default function ContactSection() {
                       value={formData.email}
                       onChange={handleChange}
                       placeholder="alex@example.com"
-                      className="w-full px-4 py-3 rounded-xl bg-slate-900/80 border border-slate-700/60 text-slate-100 placeholder-slate-500 focus:outline-none focus:border-cyan-500 transition-colors text-sm"
+                      className="w-full px-4 py-3 rounded-xl bg-black/60 border border-[var(--border-card)] text-white placeholder:text-slate-600 focus:outline-none focus:border-[var(--accent-primary)] transition-colors text-sm"
                     />
                   </div>
                 </div>
 
                 <div>
-                  <label className="block text-xs font-semibold uppercase tracking-wider text-slate-400 mb-2">
+                  <label className="block text-[11px] font-semibold uppercase tracking-wider text-[var(--text-muted)] mb-2">
                     Subject
                   </label>
                   <input
@@ -216,14 +270,14 @@ export default function ContactSection() {
                     name="subject"
                     value={formData.subject}
                     onChange={handleChange}
-                    placeholder="Project Inquiry / Opportunity"
-                    className="w-full px-4 py-3 rounded-xl bg-slate-900/80 border border-slate-700/60 text-slate-100 placeholder-slate-500 focus:outline-none focus:border-cyan-500 transition-colors text-sm"
+                    placeholder="Project Inquiry / Full Stack Role"
+                    className="w-full px-4 py-3 rounded-xl bg-black/60 border border-[var(--border-card)] text-white placeholder:text-slate-600 focus:outline-none focus:border-[var(--accent-primary)] transition-colors text-sm"
                   />
                 </div>
 
                 <div>
-                  <label className="block text-xs font-semibold uppercase tracking-wider text-slate-400 mb-2">
-                    Message *
+                  <label className="block text-[11px] font-semibold uppercase tracking-wider text-[var(--text-muted)] mb-2">
+                    Message Content *
                   </label>
                   <textarea
                     name="message"
@@ -231,8 +285,8 @@ export default function ContactSection() {
                     required
                     value={formData.message}
                     onChange={handleChange}
-                    placeholder="Type your message here..."
-                    className="w-full px-4 py-3 rounded-xl bg-slate-900/80 border border-slate-700/60 text-slate-100 placeholder-slate-500 focus:outline-none focus:border-cyan-500 transition-colors text-sm resize-none"
+                    placeholder="Type your inquiry message here..."
+                    className="w-full px-4 py-3 rounded-xl bg-black/60 border border-[var(--border-card)] text-white placeholder:text-slate-600 focus:outline-none focus:border-[var(--accent-primary)] transition-colors text-sm resize-none"
                   />
                 </div>
 
@@ -240,14 +294,14 @@ export default function ContactSection() {
                   <button
                     type="submit"
                     disabled={status === "submitting"}
-                    className="w-full sm:flex-1 py-3.5 px-6 rounded-xl bg-gradient-to-r from-cyan-500 via-indigo-600 to-purple-600 text-white font-semibold shadow-lg shadow-cyan-500/25 hover:shadow-cyan-500/40 hover:opacity-95 active:scale-[0.98] transition-all flex items-center justify-center gap-2 disabled:opacity-50"
+                    className="w-full sm:flex-1 py-3.5 px-6 rounded-xl bg-gradient-to-r from-[var(--accent-primary)] to-[var(--accent-secondary)] text-slate-950 font-bold shadow-lg hover:opacity-95 active:scale-[0.98] transition-all flex items-center justify-center gap-2 text-sm disabled:opacity-50"
                   >
                     {status === "submitting" ? (
-                      <span className="animate-pulse">Sending to harihs1210@gmail.com...</span>
+                      <span className="animate-pulse">Dispatching to harihs1210@gmail.com...</span>
                     ) : (
                       <>
-                        <Send className="w-5 h-5" />
-                        <span>Send Email Now</span>
+                        <Send className="w-4 h-4" />
+                        <span>Send Direct Email</span>
                       </>
                     )}
                   </button>
@@ -255,10 +309,10 @@ export default function ContactSection() {
                   <button
                     type="button"
                     onClick={triggerMailto}
-                    className="w-full sm:w-auto py-3.5 px-4 rounded-xl glass-card text-xs font-semibold text-slate-300 hover:text-cyan-400 hover:border-cyan-500/40 transition-colors flex items-center justify-center gap-1.5"
+                    className="w-full sm:w-auto py-3.5 px-4 rounded-xl cyber-card text-xs font-semibold text-[var(--text-muted)] hover:text-white transition-colors flex items-center justify-center gap-1.5"
                   >
-                    <Mail className="w-4 h-4 text-cyan-400" />
-                    <span>Open in Email App</span>
+                    <Mail className="w-4 h-4 text-[var(--accent-primary)]" />
+                    <span>Open Email App</span>
                   </button>
                 </div>
 
